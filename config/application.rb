@@ -10,6 +10,12 @@ module ChatApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
+    config.generators do |g|
+      g.stylesheets false
+      g.javascripts false
+      g.helper false
+      g.test_framework false
+    end  
     config.i18n.default_locale = :ja
     config.time_zone = 'Tokyo'
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
@@ -17,11 +23,5 @@ module ChatApp
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
-    config.generators do |g|
-      g.stylesheets false
-      g.javascripts false
-      g.helper false
-      g.test_framework false
-    end
   end
 end
