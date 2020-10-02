@@ -31,25 +31,27 @@ RSpec.describe User, type: :model do
     it "passwordが存在してもpassword_confimationが空では登録できないこと" do
       @user.password_confirmation = ""
       @user.valid?
-      expect(@user.errors.full_messages).to include("Password confirmation dosen't match Password")
+      expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+    end
 
-      it "passwordが6文字以上であれば登録できる" do
-        @user. = "123456"
-        @user.password_confirmation = "123456"
-        expect(@user).to be_valid
-      end
-      
-      it "passwordが５文字以下でsレバ登録できないこと" do
-        @user.password = "12345"
-        @user.password.confirmation = "12345"
-        expect(@user.errors.full_messages).to include("password is top short(minimum is 6 characters)")
-      end  
+    it "passwordが6文字以上であれば登録できる" do
+      @user.password = "123456"
+      @user.password_confirmation = "123456"
+      expect(@user).to be_valid
+    end
+    
+    it "passwordが５文字以下でsレバ登録できないこと" do
+      @user.password = "12345"
+      @user.password_confirmation = "12345"
+      @user.valid?
+      expect(@user.errors.full_messages).to include("Password is too short (minimum is 6 characters)")
+    end  
 
-      it "重複したemailが存在する場合登録できないこと" do
-        @user.save
-        another_user = FactoryBot.build(:user, email: @user.email)
-        another_user.valid?
-       expect(another_user.errors.full_messages).to include("Email has already been taken")
+    it "重複したemailが存在する場合登録できないこと" do
+      @user.save
+      another_user = FactoryBot.build(:user, email: @user.email)
+      another_user.valid?
+      expect(another_user.errors.full_messages).to include("Email has already been taken")
     end  
   end
 end
